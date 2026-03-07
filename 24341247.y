@@ -151,13 +151,15 @@ func_definition : type_specifier ID LPAREN parameter_list RPAREN compound_statem
             // You can now insert necessary information about the function into the symbol table
             // However, note that the scope of the function and the scope of the compound statement are different.
 
+			// checking if the function already exists
+
 			if(!function_declaration($2->getname())){
-				vector<pair<string,string>> params;
+				vector<pair<string,string>> params;			// getting function parameters
 
-				symbol_info* func = new symbol_info($2->getname(),"ID",$1->getname());
-				func->set_as_function($1->getname(),params);
+				symbol_info* func = new symbol_info($2->getname(),"ID",$1->getname());		// function name, token type, return type
+				func->set_as_function($1->getname(),params);			// setting as function
 
-				table->insert(func);
+				table->insert(func);			// inserting to the symbol table
 			}
 
 
@@ -223,9 +225,9 @@ compound_statement : LCURL statements RCURL
 			{ 
 				table->enter_scope();
 
-				if(!current_func_params.empty()){
-					for (auto param:current_func_params){
-						if(!param.second.empty()){
+				if(!current_func_params.empty()){				// Checks whether function parameters exist.
+					for (auto param:current_func_params){		// Loops through every parameter.
+						if(!param.second.empty()){				// Check if the parameter has a name.
 							symbol_info*param_symbol=new symbol_info(param.second,"ID",param.first);
 							table->insert(param_symbol);
 						}
@@ -718,4 +720,5 @@ int main(int argc, char *argv[])
 	fclose(yyin);
 	
 	return 0;
+
 }
