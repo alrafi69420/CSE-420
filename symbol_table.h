@@ -26,14 +26,14 @@ public:
 
 
 
-symbol_table::symbol_table(int bucket_count)
+symbol_table::symbol_table(int bucket_count)        //Runs when the symbol table is created.
 {
     this->bucket_count = bucket_count;
     this->current_scope_id = 1;
     current_scope = new scope_table(bucket_count, current_scope_id, NULL);
 }
 
-symbol_table::~symbol_table()
+symbol_table::~symbol_table()                // destructor
 {
     while(current_scope != NULL)
     {
@@ -122,4 +122,5 @@ symbol_info* symbol_table::lookup_current_scope(symbol_info *symbol)
     }
     return current_scope->lookup_in_scope(symbol); // lookup in current scope only
 }
+
 
